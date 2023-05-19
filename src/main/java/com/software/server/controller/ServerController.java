@@ -2,6 +2,8 @@ package com.software.server.controller;
 
 import com.software.server.model.Server;
 import com.software.server.repository.ServerRepository;
+import com.software.server.repository.ServerSpecifications;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
@@ -11,18 +13,21 @@ import java.util.List;
 @RequestMapping("/api/v1")
 @CrossOrigin(origins = "*")
 public class ServerController {
+
     @Autowired
     ServerRepository serverRepository;
-    @RequestMapping(value = "/servers", method = RequestMethod.POST)
+
+    @PostMapping("/servers")
     public Server createServer(@RequestBody Server server){
         return serverRepository.save(server);
     }
-    @RequestMapping(value = "/servers", method = RequestMethod.GET)
+
+    @GetMapping("/servers")
     public List<Server> readServers(){
         return serverRepository.findAll();
     }
 
-    @RequestMapping(value = "/servers/{id}", method = RequestMethod.PUT)
+    @PutMapping("/servers/{id}")
     public Server readServers(@PathVariable(value = "id") Long id, @RequestBody Server server){
 
         Server foundServer = serverRepository.findById(id).get();
@@ -41,9 +46,28 @@ public class ServerController {
         return foundServer;
     }
 
-    @RequestMapping(value = "/servers/{id}", method = RequestMethod.DELETE)
+    @DeleteMapping("/servers/{id}")
     public void deleteServers(@PathVariable(value = "id") Long id){
         serverRepository.deleteById(id);
+    }
+
+    @GetMapping("/servers/{operatingSystem}")
+    public List<Server> findServerByOperatingSystem(
+        @PathVariable(value = "operatingSystem") String operatingSystem
+        ){
+            List<Server> list = serverRepository.findAll(
+                ServerSpecifications.getServerByOperatingSystem(operatingSystem)
+            );
+
+            return list;
+    }
+
+    @GetMapping("/serversWithMultipleApplications")
+    public List<Server> getServerWithMultipleApplications(){
+
+        return serverRepository.findAll(
+                ServerSpecifications.getServerWithMultipleApplication()
+        );
     }
 
 }

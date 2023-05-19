@@ -1,6 +1,7 @@
 package com.software.server.model;
 
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.*;
 import lombok.*;
 
@@ -17,8 +18,9 @@ public class Application {
     private Long id;
     private String name;
     private String version;
+    @JsonIgnore
+    @JsonIgnoreProperties("applications ")
     @ManyToOne
     @JoinColumn(name = "server_id")
-    @JsonIgnoreProperties("applications")
     private Server server;
 }

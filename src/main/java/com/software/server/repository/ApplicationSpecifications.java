@@ -14,13 +14,14 @@ public class ApplicationSpecifications {
     public static Specification<Application> getApplicationByName(String name) {
         return new Specification<Application>() {
             @Override
-            public Predicate toPredicate(Root<Application> root,
-                                         CriteriaQuery<?> query,
-                                         CriteriaBuilder criteriaBuilder) {
-                Predicate equalPredicate = criteriaBuilder.equal(
+            public Predicate toPredicate(
+                    Root<Application> root,
+                    CriteriaQuery<?> query,
+                    CriteriaBuilder criteriaBuilder
+            ) {
+                return criteriaBuilder.equal(
                     root.get("name"),
                      name);
-                return equalPredicate;
             }
         };
     }

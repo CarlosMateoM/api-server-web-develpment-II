@@ -18,9 +18,12 @@ public class ServerSpecifications{
             public Predicate toPredicate(
                     Root<Server> root,
                     CriteriaQuery<?> query,
-                    CriteriaBuilder criteriaBuilder) {
+                    CriteriaBuilder criteriaBuilder
+            ) {
                 return criteriaBuilder.greaterThan(
-                        criteriaBuilder.size(root.get("applications")), 1);
+                        criteriaBuilder.size(root.get("applications")),
+                        1
+                );
             }
         };
     }
